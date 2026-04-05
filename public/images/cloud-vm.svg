@@ -1,0 +1,25 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="bg" x1="120" y1="80" x2="1080" y2="720" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#07111F"/>
+    <stop offset="1" stop-color="#02050C"/>
+  </linearGradient>
+  <linearGradient id="accent" x1="180" y1="140" x2="1020" y2="620" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#34D399" stop-opacity="0.9"/>
+    <stop offset="1" stop-color="#22D3EE" stop-opacity="0.85"/>
+  </linearGradient>
+</defs>
+<rect width="1200" height="760" rx="42" fill="url(#bg)"/>
+<rect x="84" y="84" width="1032" height="592" rx="34" fill="white" fill-opacity="0.04" stroke="white" stroke-opacity="0.12"/>
+<rect x="126" y="126" width="246" height="42" rx="21" fill="#22D3EE" fill-opacity="0.16"/>
+<rect x="126" y="194" width="500" height="86" rx="22" fill="white" fill-opacity="0.05"/>
+<rect x="126" y="302" width="380" height="56" rx="16" fill="white" fill-opacity="0.05"/>
+<rect x="126" y="380" width="286" height="56" rx="16" fill="white" fill-opacity="0.05"/>
+<rect x="126" y="458" width="420" height="56" rx="16" fill="white" fill-opacity="0.05"/>
+<rect x="668" y="172" width="330" height="330" rx="34" fill="#0F172A" stroke="white" stroke-opacity="0.08"/>
+<path d="M742 384H924" stroke="url(#accent)" stroke-width="18" stroke-linecap="round"/>
+<path d="M852 296V472" stroke="url(#accent)" stroke-width="18" stroke-linecap="round"/>
+<circle cx="852" cy="384" r="54" fill="#22D3EE" fill-opacity="0.2"/>
+<text x="126" y="602" fill="#E8EEFC" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="700">Cloud VM Setup</text>
+<text x="126" y="648" fill="#9AA7C7" font-family="Arial, Helvetica, sans-serif" font-size="24">Network-ready deployment workflow</text>
+</svg>

@@ -1,0 +1,50 @@
+[
+  {
+    "title": "REM Poster Case Study",
+    "description": "A visual case study that turns REM principles into a clean, research-backed poster system for fast understanding.",
+    "tools": ["Canva", "Research", "Layout Design"],
+    "outcome": "Improved clarity for presenting REM concepts in class and review sessions.",
+    "year": "2025",
+    "category": "Design",
+    "highlight": "Information design and communication",
+    "image": "/images/rem-poster.svg",
+    "github": "https://github.com/Harry-jain/ASSIGN10_rem",
+    "demo": "https://assign-10-rem.vercel.app"
+  },
+  {
+    "title": "Cloud VM Setup",
+    "description": "Provisioned a Linux virtual machine, configured the runtime, and deployed a web application with network access.",
+    "tools": ["AWS", "Ubuntu", "Nginx"],
+    "outcome": "A live cloud environment with a reproducible setup flow for future deployments.",
+    "year": "2025",
+    "category": "Cloud",
+    "highlight": "Infrastructure and deployment",
+    "image": "/images/cloud-vm.svg",
+    "github": "https://github.com/Harry-jain/WirePort",
+    "demo": "https://wireport.vercel.app"
+  },
+  {
+    "title": "Netra AI",
+    "description": "A multimodal AI prototype combining computer vision and model-driven analysis for a smart screening workflow.",
+    "tools": ["Machine Learning", "Computer Vision", "Python"],
+    "outcome": "Presented as a Smart India Hackathon project with an end-to-end demo flow.",
+    "year": "2024",
+    "category": "AI",
+    "highlight": "Hackathon-grade prototype",
+    "image": "/images/netra-ai.svg",
+    "github": "https://github.com/Harry-jain/MEDbot",
+    "demo": "https://github.com/Harry-jain/MEDbot"
+  },
+  {
+    "title": "Veda ML",
+    "description": "A plant detection and medicinal classification system designed around practical data gathering and inference.",
+    "tools": ["Python", "ML", "Data Processing"],
+    "outcome": "Helped shape a useful classification workflow for educational and research use.",
+    "year": "2024",
+    "category": "ML",
+    "highlight": "Applied machine learning",
+    "image": "/images/veda-ml.svg",
+    "github": "https://github.com/Harry-jain/Veda.ai",
+    "demo": "https://github.com/Harry-jain/Veda.ai"
+  }
+]

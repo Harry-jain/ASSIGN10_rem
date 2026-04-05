@@ -1,0 +1,22 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="bg" x1="120" y1="80" x2="1080" y2="720" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#08111A"/>
+    <stop offset="1" stop-color="#03050A"/>
+  </linearGradient>
+  <linearGradient id="accent" x1="180" y1="120" x2="1020" y2="620" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#4ADE80" stop-opacity="0.88"/>
+    <stop offset="1" stop-color="#A3E635" stop-opacity="0.82"/>
+  </linearGradient>
+</defs>
+<rect width="1200" height="760" rx="42" fill="url(#bg)"/>
+<rect x="84" y="84" width="1032" height="592" rx="34" fill="white" fill-opacity="0.04" stroke="white" stroke-opacity="0.12"/>
+<path d="M194 482C244 434 296 392 350 360C412 324 470 300 538 262C624 214 700 176 814 150" stroke="url(#accent)" stroke-width="18" stroke-linecap="round"/>
+<path d="M194 482C244 434 296 392 350 360C412 324 470 300 538 262C624 214 700 176 814 150" stroke="#4ADE80" stroke-opacity="0.15" stroke-width="54" stroke-linecap="round"/>
+<rect x="126" y="126" width="200" height="42" rx="21" fill="#4ADE80" fill-opacity="0.16"/>
+<rect x="696" y="244" width="248" height="200" rx="28" fill="#0F172A" stroke="white" stroke-opacity="0.08"/>
+<circle cx="818" cy="344" r="56" fill="#4ADE80" fill-opacity="0.18"/>
+<circle cx="818" cy="344" r="22" fill="#A3E635" fill-opacity="0.8"/>
+<text x="126" y="602" fill="#E8EEFC" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="700">Veda ML</text>
+<text x="126" y="648" fill="#9AA7C7" font-family="Arial, Helvetica, sans-serif" font-size="24">Plant detection and medicinal classification</text>
+</svg>

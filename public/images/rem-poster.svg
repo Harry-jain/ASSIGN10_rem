@@ -1,0 +1,25 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="bg" x1="120" y1="80" x2="1080" y2="720" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#091126"/>
+    <stop offset="1" stop-color="#050816"/>
+  </linearGradient>
+  <linearGradient id="accent" x1="160" y1="140" x2="1040" y2="640" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#7DD3FC" stop-opacity="0.9"/>
+    <stop offset="1" stop-color="#A78BFA" stop-opacity="0.8"/>
+  </linearGradient>
+</defs>
+<rect width="1200" height="760" rx="42" fill="url(#bg)"/>
+<rect x="84" y="84" width="1032" height="592" rx="34" fill="white" fill-opacity="0.04" stroke="white" stroke-opacity="0.12"/>
+<rect x="126" y="126" width="400" height="40" rx="20" fill="#7DD3FC" fill-opacity="0.16"/>
+<rect x="126" y="194" width="280" height="96" rx="24" fill="white" fill-opacity="0.06"/>
+<rect x="126" y="316" width="416" height="64" rx="18" fill="white" fill-opacity="0.05"/>
+<rect x="126" y="404" width="336" height="64" rx="18" fill="white" fill-opacity="0.05"/>
+<rect x="126" y="492" width="224" height="64" rx="18" fill="white" fill-opacity="0.05"/>
+<path d="M630 526C756 362 848 286 1032 182" stroke="url(#accent)" stroke-width="18" stroke-linecap="round"/>
+<circle cx="660" cy="490" r="34" fill="#7DD3FC" fill-opacity="0.22"/>
+<circle cx="828" cy="334" r="26" fill="#A78BFA" fill-opacity="0.24"/>
+<circle cx="978" cy="208" r="18" fill="#E879F9" fill-opacity="0.24"/>
+<text x="126" y="602" fill="#E8EEFC" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="700">REM Poster Case Study</text>
+<text x="126" y="648" fill="#9AA7C7" font-family="Arial, Helvetica, sans-serif" font-size="24">Research-backed visual communication</text>
+</svg>

@@ -1,0 +1,22 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="bg" x1="120" y1="80" x2="1080" y2="720" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#0B1020"/>
+    <stop offset="1" stop-color="#050816"/>
+  </linearGradient>
+  <linearGradient id="accent" x1="160" y1="120" x2="1030" y2="610" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#F472B6" stop-opacity="0.9"/>
+    <stop offset="1" stop-color="#818CF8" stop-opacity="0.85"/>
+  </linearGradient>
+</defs>
+<rect width="1200" height="760" rx="42" fill="url(#bg)"/>
+<rect x="84" y="84" width="1032" height="592" rx="34" fill="white" fill-opacity="0.04" stroke="white" stroke-opacity="0.12"/>
+<circle cx="386" cy="286" r="108" fill="#F472B6" fill-opacity="0.14"/>
+<circle cx="528" cy="240" r="54" fill="#818CF8" fill-opacity="0.18"/>
+<circle cx="658" cy="340" r="94" fill="#22D3EE" fill-opacity="0.14"/>
+<circle cx="820" cy="284" r="42" fill="#F472B6" fill-opacity="0.2"/>
+<path d="M300 430C402 370 478 348 556 356C664 368 746 426 904 344" stroke="url(#accent)" stroke-width="16" stroke-linecap="round"/>
+<rect x="126" y="126" width="200" height="42" rx="21" fill="#F472B6" fill-opacity="0.16"/>
+<text x="126" y="602" fill="#E8EEFC" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="700">Netra AI</text>
+<text x="126" y="648" fill="#9AA7C7" font-family="Arial, Helvetica, sans-serif" font-size="24">Multimodal AI prototype for screening</text>
+</svg>

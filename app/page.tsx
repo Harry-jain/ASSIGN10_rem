@@ -1,14 +1,12 @@
 "use client";
 
-import projectsData from "@/data/projects.json";
 import githubProjectsData from "@/data/github-projects.json";
 import { motion, useReducedMotion } from "framer-motion";
 import { Navbar } from "@/components/navbar";
-import { ProjectCard, type Project } from "@/components/project-card";
 import { SectionHeading } from "@/components/section-heading";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-const projects = projectsData as Project[];
+const PROJECT_SHOWCASE_LIMIT = 6;
 
 type GithubProject = {
   name: string;
@@ -34,11 +32,15 @@ function formatRepoDate(isoDate: string) {
   return repoDateFormatter.format(new Date(isoDate));
 }
 
+function getRepoDescription(description: string) {
+  return description.trim() || "Production repository from Harsh Jain's GitHub profile.";
+}
+
 const highlights = [
   {
     label: "Projects",
-    value: "04",
-    note: "Structured cards driven by local JSON",
+    value: "64+",
+    note: "Live showcase pulled from GitHub repositories",
   },
   {
     label: "Focus Areas",
@@ -129,6 +131,80 @@ const testimonials = [
 
 export default function Home() {
   const shouldReduceMotion = useReducedMotion();
+  const [isGithubModalOpen, setIsGithubModalOpen] = useState(false);
+  const [showcaseRepos, setShowcaseRepos] = useState<GithubProject[]>([]);
+  const [isShowcaseLoading, setIsShowcaseLoading] = useState(true);
+
+  const previewGithubProjects = useMemo(() => githubProjects.slice(0, 8), []);
+
+  const languageStats = useMemo(() => {
+    const total = githubProjects.length;
+    const counts = new Map<string, number>();
+
+    githubProjects.forEach((repo) => {
+      const key = repo.language?.trim() ? repo.language : "Other";
+      counts.set(key, (counts.get(key) ?? 0) + 1);
+    });
+
+    return Array.from(counts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 6)
+      .map(([language, count]) => ({
+        language,
+        percentage: Math.round((count / total) * 100),
+      }));
+  }, []);
+
+  useEffect(() => {
+    if (!isGithubModalOpen) {
+      document.body.style.overflow = "";
+      return;
+    }
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsGithubModalOpen(false);
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [isGithubModalOpen]);
+
+  useEffect(() => {
+    const fetchShowcaseRepos = async () => {
+      try {
+        const repoRes = await fetch("/api/github-showcase");
+
+        if (!repoRes.ok) {
+          throw new Error("Failed to fetch GitHub repositories");
+        }
+
+        const apiRepos = (await repoRes.json()) as GithubProject[];
+
+        if (!Array.isArray(apiRepos)) {
+          throw new Error("Unexpected API response format");
+        }
+
+        setShowcaseRepos(apiRepos.slice(0, PROJECT_SHOWCASE_LIMIT));
+      } catch {
+        // Fallback keeps the section useful if rate limited or offline.
+        const fallback = [...githubProjects]
+          .sort((a, b) => b.stars - a.stars)
+          .slice(0, PROJECT_SHOWCASE_LIMIT);
+        setShowcaseRepos(fallback);
+      } finally {
+        setIsShowcaseLoading(false);
+      }
+    };
+
+    fetchShowcaseRepos();
+  }, []);
 
   const contactMethods = useMemo(
     () => [
@@ -158,8 +234,8 @@ export default function Home() {
 
       <Navbar />
 
-      <section className="relative mx-auto max-w-6xl px-4 pb-16 pt-10 sm:px-6 lg:px-8 lg:pb-24 lg:pt-14">
-        <div className="grid gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-start">
+      <section className="relative mx-auto max-w-6xl px-4 pb-16 pt-24 sm:px-6 lg:px-8 lg:pb-24 lg:pt-28">
+        <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-start lg:gap-12">
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, y: 22 }}
             animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
@@ -168,18 +244,18 @@ export default function Home() {
           >
             <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-amber-300/15 bg-amber-300/8 px-4 py-2 text-xs font-medium text-amber-100">
               <span className="h-2 w-2 rounded-full bg-amber-300 shadow-[0_0_18px_rgba(125,211,252,0.95)]" />
-              Local-first Next.js portfolio with network-ready hosting
+              Vercel-ready portfolio with live GitHub showcases
             </div>
 
-            <h1 className="max-w-4xl text-5xl font-semibold leading-[1.02] tracking-tight text-white sm:text-6xl lg:text-7xl">
+            <h1 className="max-w-4xl text-4xl font-semibold leading-[1.02] tracking-tight text-white sm:text-6xl lg:text-7xl">
               Building a <span className="text-gradient">REM portfolio</span> that feels
               cinematic, structured, and easy to extend.
             </h1>
 
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300 sm:text-xl">
-              I built this portfolio as a real Next.js app with local JSON data,
-              animated sections, reusable cards, and a layout that works on desktop,
-              mobile, and your network at <span className="font-mono text-amber-200">0.0.0.0</span>.
+            <p className="mt-6 max-w-2xl text-base leading-8 text-slate-300 sm:text-xl">
+              I built this portfolio as a production Next.js app with structured data,
+              animated sections, reusable components, and clean deployment on Vercel
+              with fast loading across desktop and mobile.
             </p>
 
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
@@ -205,7 +281,7 @@ export default function Home() {
               </a>
             </div>
 
-            <div className="mt-10 grid gap-4 sm:grid-cols-3">
+            <div className="mt-10 grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(14.5rem,1fr))]">
               {highlights.map((item, index) => (
                 <motion.div
                   key={item.label}
@@ -233,10 +309,10 @@ export default function Home() {
             <div className="absolute -left-8 top-10 h-28 w-28 rounded-full bg-amber-400/25 blur-3xl hero-glow" />
             <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-rose-400/20 blur-3xl hero-glow" />
 
-            <div className="glass-panel-strong relative h-full overflow-hidden rounded-[2rem] p-6 sm:p-7">
+            <div className="glass-panel-strong relative h-full overflow-hidden rounded-[2rem] p-5 sm:p-7">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(125,211,252,0.12),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(167,139,250,0.12),transparent_28%)]" />
               <div className="relative flex h-full flex-col justify-between gap-5">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber-200/75">
                       Profile snapshot
@@ -251,7 +327,7 @@ export default function Home() {
                       </span>
                     </div>
                   </div>
-                  <div className="rounded-2xl border border-white/10 bg-white/8 px-4 py-2 text-right">
+                  <div className="self-start rounded-2xl border border-white/10 bg-white/8 px-4 py-2 text-left sm:self-auto sm:text-right">
                     <p className="text-xs uppercase tracking-[0.24em] text-slate-400">Status</p>
                     <p className="mt-1 text-sm font-semibold text-amber-100">Open to opportunities</p>
                   </div>
@@ -343,8 +419,8 @@ export default function Home() {
                 },
                 {
                   label: "Deployment",
-                  value: "Local and network-ready",
-                  detail: "Run on localhost or expose it on your LAN using 0.0.0.0.",
+                  value: "Vercel production-ready",
+                  detail: "Optimized for fast global hosting with reliable static delivery and API caching.",
                 },
               ].map((item, index) => (
                 <motion.div
@@ -375,9 +451,9 @@ export default function Home() {
           transition={{ duration: 0.55 }}
         >
           <SectionHeading
-            eyebrow="Projects"
-            title="Dynamic cards powered by real JSON data"
-            description="Each project card is rendered from local structured data, so you can update titles, tools, outcomes, and descriptions without rewriting the layout."
+            eyebrow="Project Showcase"
+            title="Popular repositories sorted by stars"
+            description="This section follows your GitHub API pattern: fetch all repos, sort by stargazers count, and display the top projects."
           />
 
           <motion.div
@@ -394,14 +470,90 @@ export default function Home() {
             }}
             className="mt-10 grid gap-6 lg:grid-cols-2"
           >
-            {projects.map((project, index) => (
-              <ProjectCard key={project.title} project={project} index={index} />
-            ))}
+            {isShowcaseLoading ? (
+              Array.from({ length: 4 }).map((_, index) => (
+                <div
+                  key={`showcase-skeleton-${index}`}
+                  className="animate-pulse rounded-[1.5rem] border border-white/10 bg-white/5 p-5"
+                >
+                  <div className="h-4 w-24 rounded bg-white/10" />
+                  <div className="mt-4 h-6 w-2/3 rounded bg-white/10" />
+                  <div className="mt-4 h-4 w-full rounded bg-white/10" />
+                  <div className="mt-2 h-4 w-5/6 rounded bg-white/10" />
+                </div>
+              ))
+            ) : (
+              showcaseRepos.map((repo, index) => (
+                <motion.article
+                  key={repo.url}
+                  initial={shouldReduceMotion ? false : { opacity: 0, y: 14 }}
+                  whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ delay: index * 0.04, duration: 0.4 }}
+                  className="rounded-[1.5rem] border border-white/10 bg-white/5 p-5"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                        {repo.language || "Other"}
+                      </p>
+                      <h3 className="mt-2 text-xl font-semibold text-white">{repo.name}</h3>
+                    </div>
+                    <p className="rounded-full border border-white/10 bg-white/8 px-3 py-1 text-xs font-medium text-slate-200">
+                      {formatRepoDate(repo.updatedAt)}
+                    </p>
+                  </div>
+
+                  <p className="mt-4 text-sm leading-7 text-slate-300">
+                    {getRepoDescription(repo.description)}
+                  </p>
+
+                  <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-slate-300">
+                    <span className="rounded-full border border-white/10 bg-white/7 px-2.5 py-1">
+                      Stars: {repo.stars}
+                    </span>
+                    <span className="rounded-full border border-white/10 bg-white/7 px-2.5 py-1">
+                      Forks: {repo.forks}
+                    </span>
+                  </div>
+
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <a
+                      href={repo.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="rounded-full border border-white/10 bg-white/6 px-4 py-2 text-xs font-semibold text-white hover:bg-white/10"
+                    >
+                      Open repo
+                    </a>
+                    {repo.homepage ? (
+                      <a
+                        href={repo.homepage}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="rounded-full border border-amber-300/18 bg-amber-300/10 px-4 py-2 text-xs font-semibold text-amber-50 hover:bg-amber-300/16"
+                      >
+                        Live site
+                      </a>
+                    ) : null}
+                  </div>
+                </motion.article>
+              ))
+            )}
           </motion.div>
+
+          <div className="mt-8 flex justify-center">
+            <a
+              href="#github"
+              className="rounded-full border border-white/12 bg-white/6 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10"
+            >
+              Browse all repositories
+            </a>
+          </div>
         </motion.div>
       </section>
 
-      <section id="github" className="relative mx-auto max-w-6xl px-4 pb-8 pt-6 sm:px-6 lg:px-8">
+      <section id="github" className="relative mx-auto max-w-6xl px-4 pb-2 pt-6 sm:px-6 lg:px-8">
         <motion.div
           initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
           whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
@@ -414,8 +566,22 @@ export default function Home() {
             description="This list is generated from your real public repositories and links directly to each project."
           />
 
+          <div className="mt-6 flex flex-wrap items-center gap-2">
+            <span className="rounded-full border border-amber-300/16 bg-amber-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-amber-100">
+              Global Repo Stats ({githubProjects.length})
+            </span>
+            {languageStats.map((item) => (
+              <span
+                key={item.language}
+                className="rounded-full border border-white/10 bg-white/6 px-3 py-1 text-xs font-medium text-slate-200"
+              >
+                {item.language} {item.percentage}%
+              </span>
+            ))}
+          </div>
+
           <div className="mt-10 grid gap-4 md:grid-cols-2">
-            {githubProjects.map((repo, index) => (
+            {previewGithubProjects.map((repo, index) => (
               <motion.article
                 key={repo.url}
                 initial={shouldReduceMotion ? false : { opacity: 0, y: 14 }}
@@ -428,7 +594,7 @@ export default function Home() {
                   <div>
                     <h3 className="text-lg font-semibold text-white">{repo.name}</h3>
                     <p className="mt-1 text-xs uppercase tracking-[0.2em] text-slate-400">
-                      {repo.language || "Unspecified"}
+                      {repo.language || "Other"}
                     </p>
                   </div>
                   <p className="rounded-full border border-white/10 bg-white/8 px-3 py-1 text-xs font-medium text-slate-200">
@@ -439,7 +605,7 @@ export default function Home() {
                 {repo.description ? (
                   <p className="mt-3 text-sm leading-7 text-slate-300">{repo.description}</p>
                 ) : (
-                  <p className="mt-3 text-sm leading-7 text-slate-500">No description provided.</p>
+                  <p className="mt-3 text-sm leading-7 text-slate-500">{getRepoDescription("")}</p>
                 )}
 
                 <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-slate-300">
@@ -474,10 +640,112 @@ export default function Home() {
               </motion.article>
             ))}
           </div>
+
+          <div className="mt-8 flex items-center justify-center">
+            <button
+              type="button"
+              onClick={() => setIsGithubModalOpen(true)}
+              className="rounded-full border border-amber-300/20 bg-amber-300/10 px-6 py-3 text-sm font-semibold text-amber-50 hover:bg-amber-300/16"
+            >
+              Show all projects ({githubProjects.length})
+            </button>
+          </div>
         </motion.div>
       </section>
 
-      <section id="timeline" className="relative mx-auto max-w-6xl px-4 pb-16 pt-8 sm:px-6 lg:px-8">
+      {isGithubModalOpen ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 px-4 py-6 backdrop-blur-sm"
+          onClick={() => setIsGithubModalOpen(false)}
+        >
+          <div
+            className="glass-panel-strong w-full max-w-5xl rounded-[2rem] border border-white/12 p-5 sm:p-6"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="mb-5 flex items-center justify-between gap-4">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
+                  GitHub Projects
+                </p>
+                <h3 className="mt-2 text-2xl font-semibold text-white">
+                  All {githubProjects.length} repositories
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsGithubModalOpen(false)}
+                className="rounded-full border border-white/12 bg-white/6 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10"
+              >
+                Close
+              </button>
+            </div>
+
+            <div className="max-h-[70vh] overflow-y-auto pr-1">
+              <div className="grid gap-4 md:grid-cols-2">
+                {githubProjects.map((repo, index) => (
+                  <motion.article
+                    key={`modal-${repo.url}`}
+                    initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
+                    animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                    transition={{ delay: (index % 12) * 0.02, duration: 0.35 }}
+                    className="rounded-[1.4rem] border border-white/10 bg-white/5 p-4"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <h4 className="text-base font-semibold text-white">{repo.name}</h4>
+                        <p className="mt-1 text-xs uppercase tracking-[0.2em] text-slate-400">
+                          {repo.language || "Other"}
+                        </p>
+                      </div>
+                      <p className="rounded-full border border-white/10 bg-white/8 px-3 py-1 text-xs font-medium text-slate-200">
+                        {formatRepoDate(repo.updatedAt)}
+                      </p>
+                    </div>
+
+                    {repo.description ? (
+                      <p className="mt-3 text-sm leading-7 text-slate-300">{repo.description}</p>
+                    ) : (
+                      <p className="mt-3 text-sm leading-7 text-slate-500">{getRepoDescription("")}</p>
+                    )}
+
+                    <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-slate-300">
+                      <span className="rounded-full border border-white/10 bg-white/7 px-2.5 py-1">
+                        Stars: {repo.stars}
+                      </span>
+                      <span className="rounded-full border border-white/10 bg-white/7 px-2.5 py-1">
+                        Forks: {repo.forks}
+                      </span>
+                    </div>
+
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      <a
+                        href={repo.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="rounded-full border border-white/10 bg-white/6 px-4 py-2 text-xs font-semibold text-white hover:bg-white/10"
+                      >
+                        Open repo
+                      </a>
+                      {repo.homepage ? (
+                        <a
+                          href={repo.homepage}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="rounded-full border border-amber-300/18 bg-amber-300/10 px-4 py-2 text-xs font-semibold text-amber-50 hover:bg-amber-300/16"
+                        >
+                          Live site
+                        </a>
+                      ) : null}
+                    </div>
+                  </motion.article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      <section id="timeline" className="relative mx-auto max-w-6xl px-4 pb-16 pt-2 sm:px-6 lg:px-8">
         <motion.div
           initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
           whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
@@ -631,7 +899,7 @@ export default function Home() {
                   Quick note
                 </p>
                 <p className="mt-3 text-sm leading-7 text-slate-200">
-                  Resume is now linked to your provided GitHub repository, and every project card still links to real GitHub/live destinations.
+                  This portfolio is optimized for Vercel hosting with fast static delivery and live GitHub-linked project content.
                 </p>
               </div>
 
@@ -658,8 +926,8 @@ export default function Home() {
 
       <footer className="border-t border-white/10 bg-black/20">
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-8 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <p>Built with Next.js, Tailwind CSS, Framer Motion, and local JSON data.</p>
-          <p className="font-mono">localhost:3000 / network-ready on 0.0.0.0</p>
+          <p>Built with Next.js, Tailwind CSS, Framer Motion, and live GitHub data.</p>
+          <p className="font-mono">Deployed on Vercel</p>
         </div>
       </footer>
     </main>

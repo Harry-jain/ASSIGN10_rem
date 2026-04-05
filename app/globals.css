@@ -83,11 +83,11 @@ main {
 .liquid-glass {
   background: linear-gradient(
       145deg,
-      rgba(255, 255, 255, 0.12) 0%,
-      rgba(255, 255, 255, 0.06) 28%,
-      rgba(255, 255, 255, 0.03) 100%
+      rgba(255, 255, 255, 0.09) 0%,
+      rgba(255, 255, 255, 0.045) 28%,
+      rgba(255, 255, 255, 0.02) 100%
     ),
-    rgba(20, 12, 9, 0.54);
+    rgba(20, 12, 9, 0.58);
   backdrop-filter: blur(26px) saturate(140%);
   -webkit-backdrop-filter: blur(26px) saturate(140%);
   border: 1px solid rgba(255, 255, 255, 0.16);

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { IBM_Plex_Mono, Sora } from "next/font/google";
 import "./globals.css";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://hmj-portfolio.vercel.app";
+
 const sora = Sora({
   variable: "--font-sora",
   subsets: ["latin"],
@@ -16,13 +18,28 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: "Harsh Jain | REM Portfolio",
   description:
-    "A polished Next.js portfolio for REM work, projects, cloud deployment, and AI experiments.",
-  metadataBase: new URL("http://localhost:3000"),
+    "Vercel-ready portfolio showcasing Harsh Jain's projects, GitHub repositories, AI builds, and cloud-focused work.",
+  metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Harsh Jain | REM Portfolio",
     description:
-      "A polished Next.js portfolio for REM work, projects, cloud deployment, and AI experiments.",
+      "Vercel-ready portfolio showcasing Harsh Jain's projects, GitHub repositories, AI builds, and cloud-focused work.",
     type: "website",
+    url: siteUrl,
+    siteName: "Harsh Jain Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Harsh Jain | REM Portfolio",
+    description:
+      "Vercel-ready portfolio showcasing projects, GitHub repositories, AI builds, and cloud-focused work.",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 

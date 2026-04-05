@@ -55,8 +55,8 @@ export function Navbar() {
   }, [menuOpen]);
 
   return (
-    <header className="sticky top-0 z-50 px-4 pt-3 sm:px-6 lg:px-8">
-      <div className="liquid-glass mx-auto flex max-w-6xl items-center justify-between rounded-full px-4 py-3 sm:px-5">
+    <header className="fixed inset-x-0 top-0 z-[70] px-4 pt-3 sm:px-6 lg:px-8">
+      <div className="liquid-glass pointer-events-auto mx-auto flex max-w-6xl items-center justify-between rounded-full px-4 py-3 sm:px-5">
         <a
           href="#top"
           className="group inline-flex items-center gap-3 text-sm font-semibold tracking-[0.24em] uppercase text-slate-100"

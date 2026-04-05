@@ -159,7 +159,7 @@ export default function Home() {
       <Navbar />
 
       <section className="relative mx-auto max-w-6xl px-4 pb-16 pt-10 sm:px-6 lg:px-8 lg:pb-24 lg:pt-14">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.08fr_0.92fr]">
+        <div className="grid gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-start">
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, y: 22 }}
             animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
@@ -242,6 +242,14 @@ export default function Home() {
                       Profile snapshot
                     </p>
                     <h2 className="mt-3 text-2xl font-semibold text-white">Harsh Jain</h2>
+                    <div className="mt-3 flex flex-wrap gap-2 text-xs">
+                      <span className="rounded-full border border-white/12 bg-white/8 px-2.5 py-1 text-slate-200">
+                        Full-stack focus
+                      </span>
+                      <span className="rounded-full border border-white/12 bg-white/8 px-2.5 py-1 text-slate-200">
+                        India
+                      </span>
+                    </div>
                   </div>
                   <div className="rounded-2xl border border-white/10 bg-white/8 px-4 py-2 text-right">
                     <p className="text-xs uppercase tracking-[0.24em] text-slate-400">Status</p>

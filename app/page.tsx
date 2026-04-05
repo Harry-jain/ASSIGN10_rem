@@ -23,6 +23,16 @@ type GithubProject = {
 
 const githubProjects = githubProjectsData as GithubProject[];
 const RESUME_URL = "https://github.com/Harry-jain/Resume";
+const repoDateFormatter = new Intl.DateTimeFormat("en-GB", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+function formatRepoDate(isoDate: string) {
+  return repoDateFormatter.format(new Date(isoDate));
+}
 
 const highlights = [
   {
@@ -414,7 +424,7 @@ export default function Home() {
                     </p>
                   </div>
                   <p className="rounded-full border border-white/10 bg-white/8 px-3 py-1 text-xs font-medium text-slate-200">
-                    {new Date(repo.updatedAt).toLocaleDateString()}
+                    {formatRepoDate(repo.updatedAt)}
                   </p>
                 </div>
 
